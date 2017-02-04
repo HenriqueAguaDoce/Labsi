@@ -39,7 +39,35 @@ class Labsi2_db{
 		} else {
 			echo "0 results";
 		}
+		
 		}
+		
+	public function getUser($nome){
+		$sql = "SELECT password FROM utilizadores WHERE nome = '$nome'";
+ 
+		$result = mysqli_query($this->conn, $sql);
+		$row = mysqli_num_rows($result);
+		
+		if($row == 1) {
+			$row = mysqli_fetch_assoc($result);
+		} else {
+			$row = null;
+		}	
+		return $row;
+	}
+		
+	public function getUserName($nome) {
+		$sql = "SELECT nome FROM utilizadores WHERE utilizadores.nome = '$nome'";
+ 
+		$result = mysqli_query($this->conn, $sql);
+		$row = mysqli_num_rows($result);
+		
+		if($row == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 	
 	public function insertUser($nome, $email , $password, $id_tipoUtilizador){
 		$sql = "INSERT INTO utilizadores VALUES('','$nome','$email', '$password', $id_tipoUtilizador);";
