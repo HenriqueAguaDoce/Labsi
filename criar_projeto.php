@@ -22,15 +22,23 @@ include('header.php');
 ?>
 <div class="container-fluid wraper">
 	<?php include('sidenav.php') ?>
-    <div class="col-sm-8 textcontent"> 
+    <br>
+    <div class="col-sm-8 textcontent">
+        <h1 class="title"><strong>Projecto</strong></h1>
+        <br><br><br><br>
         <form>
           <div class="form-group">
-            <label for="exampleTextarea">Example textarea</label>
-            <textarea class="form-control" rows="3"></textarea>
+            <label for="titulo">Titulo</label>
+            <input type="text" class="form-control" id="titulo" >
+
           </div>
           <div class="form-group">
-            <label for="exampleInputFile">File input</label>
-            <input type="file" class="form-control-file">
+            <label for="texto">Texto</label>
+            <textarea class="form-control" id="texto" rows="3"></textarea class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="fotografia">Escolha uma fotografia</label>
+            <input type="file" class="form-control-file" id="fotografia">
           </div>
           <button type="publicar" class="btn btn-primary">Publicar</button>
         </form>

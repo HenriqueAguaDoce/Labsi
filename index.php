@@ -22,15 +22,23 @@ include('header.php');
 ?>
 
 <div class="container-fluid wraper">
-	<?php include('sidenav.php') ?>    
+	<?php include('sidenav.php') ?>
+	<br>
   	<div class="col-sm-8 textcontent"> 
    		<h2 class="title">LabSI2 - Laboratório de Sistemas de Informação e de Interatividade</h2>
-        <br><br>
-    	<p>O Laboratório de Sistemas de Informação e Interatividade (LabSI2) tem como missão contribuir, através do recurso às novas tecnologias da informação e comunicação, para a competitividade das empresas e melhoria da qualidade de vida de todas as pessoas sem exceção.</p> 
+        <br><br><br><br>
+    	<p>O Laboratório de Sistemas de Informação e Interatividade (LabSI2) tem como missão contribuir, através do recurso às novas tecnologias da informação e
+			comunicação, para a competitividade das empresas e melhoria da qualidade de vida de todas as pessoas sem exceção.
+		</p>
         <hr>
-    	<p>Nesse sentido, desenvolve sistemas tecnológicos de apoio a pessoas com necessidades especiais, tais como crianças, pessoas portadoras de deficiência e idosos. Com vista à concretização da sua missão o LabSI2 está empenhado no desenvolvimento de infra-estruturas, produtos e serviços inovadores de base tecnológica que possam contribuir para o progresso económico e social da região e do país em diversas áreas.</p> 
+    	<p>Nesse sentido, desenvolve sistemas tecnológicos de apoio a pessoas com necessidades especiais, tais como crianças, pessoas portadoras de deficiência e
+			idosos. Com vista à concretização da sua missão o LabSI2 está empenhado no desenvolvimento de infra-estruturas, produtos e serviços inovadores de base
+			tecnológica que possam contribuir para o progresso económico e social da região e do país em diversas áreas.
+		</p>
         <hr>
-    	<p>A realização deste site surgiu no âmbito da disciplina Projeto Integrado 3 pertencente ao Curso Técnico e Superior Profissional de Tecnologias Web e Dispositivos Móveis na Escola Superior de Tecnologia e Gestão, do Instituto Politécnico de Beja.</p>      
+    	<p>A realização deste site surgiu no âmbito da disciplina Projeto Integrado 3 pertencente ao Curso Técnico e Superior Profissional de Tecnologias Web e
+			Dispositivos Móveis na Escola Superior de Tecnologia e Gestão, do Instituto Politécnico de Beja.
+		</p>
 	</div>
 </div>
 

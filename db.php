@@ -40,9 +40,9 @@ class Labsi2_db{
 			echo "0 results";
 		}
 		
-		}
+	}
 		
-	public function getUser($nome){
+	public function getUserPass($nome){
 		$sql = "SELECT password FROM utilizadores WHERE nome = '$nome'";
  
 		$result = mysqli_query($this->conn, $sql);
@@ -73,6 +73,55 @@ class Labsi2_db{
 		$sql = "INSERT INTO utilizadores VALUES('','$nome','$email', '$password', $id_tipoUtilizador);";
 		mysqli_query($this->conn, $sql);
 	}
-	
+
+	public function insertPub($titulo, $descricao, $data, $hora , $id_areas) {
+		$sql = "INSERT INTO publicacoes VALUES('','$titulo','$descricao', '$data', '$hora', $id_areas);";
+		mysqli_query($this->conn, $sql);
+	}
+
+	public function getIdFromPub($titulo, $descricao, $id_areas) {
+
+		$sql = "SELECT id FROM publicacoes WHERE titulo = '$titulo' AND descricao = '$descricao' AND id_areas = '$id_areas'";
+		$sqlquery = mysqli_query($this->conn, $sql);
+		$row = mysqli_fetch_assoc($sqlquery);
+		$result = $row['id'];
+		return $result;
+	}
+
+	public function getIdFromUsers($nome){
+		$sql = "SELECT id FROM utilizadores WHERE nome ='$nome'";
+		$sqlquery = mysqli_query($this->conn, $sql);
+		$row = mysqli_fetch_assoc($sqlquery);
+		$result = $row['id'];
+
+		return $result;
+	}
+
+	public function insertUsersPubs($id_utilizadores, $id_publicacoes) {
+		$sql = "INSERT INTO utilizadores_publicacoes VALUES(null,$id_utilizadores,$id_publicacoes);";
+		mysqli_query($this->conn, $sql);
+	}
+
+	public function getAllNamesFromAreas(){
+		$sql = "SELECT nome FROM areas";
+		$result = mysqli_query($this -> conn, $sql);
+		if (mysqli_num_rows($result) > 0){
+			$array = array();
+			while($row = mysqli_fetch_assoc($result)) {
+				$array[] = $row["nome"];
+			}
+			return $array;
+		} else {
+			echo "0 results";
+		}
+	}
+
+	public function getIdFromAreas($nome){
+		$sql = "SELECT id FROM areas WHERE nome ='$nome'";
+		$sqlquery = mysqli_query($this->conn, $sql);
+		$row = mysqli_fetch_assoc($sqlquery);
+		$result = $row['id'];
+		return $result;
+	}
 }
 ?>

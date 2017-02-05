@@ -21,7 +21,7 @@
     <ul class="list">
         <h5><strong>PUBLICAÇÕES</strong></h5>
         <?php if (isset($_SESSION['validUser']) AND $_SESSION['validUser'] == 1) :?>
-        <li><a>Criar Publicação</a></li>
+        <li><a href="criar_publicacao.php">Criar Publicação</a></li>
         <li><a>Publicação 1</a></li>
         <li><a>Publicação 2</a></li>
         <?php else: ?>

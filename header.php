@@ -36,8 +36,8 @@
                     <input class="form-control register" type="text" name="regsEmail" placeholder="Email.."  required />
 				  	<input class="form-control register" type="password" name="regsPass" placeholder="Password.." required/>
                     <input class="form-control register" type="password" name="regsConfPass" placeholder="Confirme a sua password.." required/>
-                    <select class="form-control register" name="tipoUtilizador" required>
-                    	<option selected disabled hidden > Tipo de Utilizador </option>
+                    <select required class="form-control register" name="tipoUtilizador">
+                    	<option selected disabled hidden value=""> Tipo de Utilizador </option>
                         <?php
 						
 							$db = new Labsi2_db();

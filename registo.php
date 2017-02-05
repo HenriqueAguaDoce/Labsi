@@ -40,11 +40,6 @@ else{
 
 if(isset($_POST["tipoUtilizador"])){
 	$id_tipoUtilizador = $db->getIdFromTipoUtilizadores($_POST["tipoUtilizador"]);
-} else {
-	echo ("<SCRIPT LANGUAGE='JavaScript'>
-    window.alert('É necessário especificar tipo de utilizador !')
-	window.location.href='index.php';
-    </SCRIPT>");
 }
 
 $password = test_input($_POST["regsPass"]);

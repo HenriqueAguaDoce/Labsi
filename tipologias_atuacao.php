@@ -21,11 +21,16 @@ include ('session.php');
 include('header.php'); 
 ?>
 <div class="container-fluid wraper">
-	<?php include('sidenav.php'); ?>  
+	<?php include('sidenav.php'); ?>
+	<br>
     <div class="col-sm-8 textcontent">  
         <h1 class="title"><strong>Tipologias de Atuação</strong></h1>
-    	<br>
-    	<p>Sistemas de informação interativos e aplicações para pessoas com necessidades especiais (CNAEF 481-Ciências Informáticas e 523-Eletrónica e Automação, FOS 1.2 Ciências da computação e ciências da informação e 2.2 - Engenharia eletrotécnica, eletrónica e informática) (Indicar num texto/frase de duas linhas uma descrição das áreas de intervenção, com indicação do(s) código(s) CNAEF e FOS).</p> 
+    	<br><br><br><br>
+    	<p>Sistemas de informação interativos e aplicações para pessoas com necessidades especiais (CNAEF 481-Ciências Informáticas e
+			523-Eletrónica e Automação, FOS 1.2 Ciências da computação e ciências da informação e 2.2 - Engenharia eletrotécnica, eletrónica
+			e informática) (Indicar num texto/frase de duas linhas uma descrição das áreas de intervenção, com indicação do(s) código(s)
+			CNAEF e FOS).
+		</p>
     	<hr>
     </div>
 </div>

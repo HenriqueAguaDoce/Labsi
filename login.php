@@ -9,7 +9,7 @@ $db ->connect();
 $password = $_POST["logPass"];
 $username = $_POST["logName"];
 
-$hashPassword  = $db -> getUser($username);
+$hashPassword  = $db -> getUserPass($username);
 
 
 $hashPassword = $hashPassword['password'];

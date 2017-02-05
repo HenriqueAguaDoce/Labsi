@@ -21,10 +21,11 @@ include ('session.php');
 include('header.php'); 
 ?>
 <div class="container-fluid wraper">
-	<?php include('sidenav.php') ?>  
+	<?php include('sidenav.php') ?>
+    <br>
     <div class="col-sm-8 textcontent">  
     	<h1 class="title"><strong>Contactos</strong></h1>
-        <br> 
+        <br> <br><br><br>
     	<p>
         	Isabel Sofia Sousa Brito<br>
             Correio eletrónico: <a href="mailto:isabel.sofia@ipbeja.pt">isabel.sofia@ipbeja.pt</a><br>

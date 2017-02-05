@@ -21,10 +21,11 @@ include ('session.php');
 include('header.php'); 
 ?>
 <div class="container-fluid wraper">
-	<?php include('sidenav.php') ?>  
+	<?php include('sidenav.php') ?>
+    <br>
     <div class="col-sm-8 textcontent">  
         <h1 class="title"><strong>Coordenação</strong></h1>
-    	<br>
+    	<br><br><br><br>
     	<h4><strong>Coordenadora</strong></h4>
         <br> 
     	<p>
