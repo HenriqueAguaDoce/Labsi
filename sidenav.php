@@ -22,11 +22,9 @@
         <h5><strong>PUBLICAÇÕES</strong></h5>
         <?php if (isset($_SESSION['validUser']) AND $_SESSION['validUser'] == 1) :?>
         <li><a href="criar_publicacao.php">Criar Publicação</a></li>
-        <li><a>Publicação 1</a></li>
-        <li><a>Publicação 2</a></li>
+        <li><a href="publicacoes_recentes.php">Publicações Recentes</a></li>
         <?php else: ?>
-        <li><a>Publicação 1</a></li>
-        <li><a>Publicação 2</a></li>
+        <li><a href="publicacoes_recentes.php">Publicações Recentes</a></li>
         <?php endif; ?>
     </ul>    
   </div>

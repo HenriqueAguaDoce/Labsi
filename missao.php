@@ -26,7 +26,7 @@ include('header.php');
     <div class="col-sm-8 textcontent">
         <h1 class="title"><strong>Laboratório de Sistemas de Informação e Interatividade</strong></h1>
         <br><br><br><br>
-        <p>O Laboratório de Sistemas de Informação e Interatividade (LabSI2) tem como missão contribuir, através do recurso às novas tecnologias da
+        <article><p>O Laboratório de Sistemas de Informação e Interatividade (LabSI2) tem como missão contribuir, através do recurso às novas tecnologias da
             informação e comunicação, para a competitividade das empresas e melhoria da qualidade de vida de todas as pessoas sem exceção.
         </p>
         <p>Nesse sentido, desenvolve sistemas tecnológicos de apoio a pessoas com necessidades especiais, tais como crianças, pessoas portadoras de
@@ -35,7 +35,7 @@ include('header.php');
         </p>
         <p>A realização deste site surgiu no âmbito da disciplina Projeto Integrado 3 pertencente ao Curso Técnico e Superior Profissional de Tecnologias
             Web e Dispositivos Móveis na Escola Superior de Tecnologia e Gestão, do Instituto Politécnico de Beja.
-        </p>
+        </p></article>
         <br>
     </div>
 </div>

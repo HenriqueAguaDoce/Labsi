@@ -25,7 +25,7 @@ include('header.php');
 	<?php include('sidenav.php') ?>
 	<br>
   	<div class="col-sm-8 textcontent"> 
-   		<h2 class="title">LabSI2 - Laboratório de Sistemas de Informação e de Interatividade</h2>
+   		<h2 class="title"><strong>LabSI2 - Laboratório de Sistemas de Informação e de Interatividade</strong></h2>
         <br><br><br><br>
     	<p>O Laboratório de Sistemas de Informação e Interatividade (LabSI2) tem como missão contribuir, através do recurso às novas tecnologias da informação e
 			comunicação, para a competitividade das empresas e melhoria da qualidade de vida de todas as pessoas sem exceção.

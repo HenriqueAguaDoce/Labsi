@@ -123,5 +123,28 @@ class Labsi2_db{
 		$result = $row['id'];
 		return $result;
 	}
+
+	public function getAllIdsFromPubs(){
+		$sql = "SELECT id FROM publicacoes";
+		$result = mysqli_query($this -> conn, $sql);
+		if (mysqli_num_rows($result) > 0){
+			$array = array();
+			while($row = mysqli_fetch_assoc($result)) {
+				$array[] = $row["id"];
+			}
+			return $array;
+		} else {
+			echo "0 results";
+		}
+	}
+
+	function getAllPubs($number){
+
+		$sql = "SELECT * FROM publicacoes WHERE id = '$number'";
+		$query = mysqli_query($this -> conn, $sql);
+
+		$row = mysqli_fetch_assoc($query);
+		return $row;
+	}
 }
 ?>
