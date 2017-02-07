@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8">
     <title>LABSI2</title>
-    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -24,11 +23,11 @@ include('header.php');
     <?php include('sidenav.php'); ?>
     <br>
     <div class="col-sm-8 textcontent">
-        <h1 class="title"><strong>Área Estratégica de Informação</strong></h1>
+        <h1 class="title"><strong>Ãrea EstratÃ©gica de InformaÃ§Ã£o</strong></h1>
         <br><br><br><br>
-        <p class="paragraph">Tecnologias do Conhecimento e Criatividade Multime?dia. (CNAEF 481-Ciências Informáticas e 523-Electrónica e Automação,
-            FOS 1.2 Ciências da computação e ciências da informação e 2.2 - Engenharia eletrotécnica, eletrónica e informática) (Descrever a área estratégica
-            de intervenção, tendo em conta as áreas de intervenção estratégica do Plano Estratégico do IPBeja, e com a indicação das áreas CNAEF e FOS).
+        <p class="paragraph">Tecnologias do Conhecimento e Criatividade Multime?dia. (CNAEF 481-CiÃªncias InformÃ¡ticas e 523-ElectrÃ³nica e AutomaÃ§Ã£o,
+            FOS 1.2 CiÃªncias da computaÃ§Ã£o e ciÃªncias da informaÃ§Ã£o e 2.2 - Engenharia eletrotÃ©cnica, eletrÃ³nica e informÃ¡tica) (Descrever a Ã¡rea estratÃ©gica
+            de intervenÃ§Ã£o, tendo em conta as Ã¡reas de intervenÃ§Ã£o estratÃ©gica do Plano EstratÃ©gico do IPBeja, e com a indicaÃ§Ã£o das Ã¡reas CNAEF e FOS).
         </p>
         <hr>
     </div>

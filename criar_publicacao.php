@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8">
     <title>LABSI2</title>
-    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -26,7 +25,7 @@ include('header.php');
     <div class="col-sm-8 textcontent">
         <h1 class="title"><strong>Publicação</strong></h1>
         <br><br><br><br>
-        <form class="form-horizontal" action="<?php htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post" accept-charset="UTF-8">
+        <form class="form-horizontal" action="<?php htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="titulo">Titulo</label>
                 <input type="text" name="titulo" class="form-control" id="titulo" required>
@@ -54,8 +53,8 @@ include('header.php');
                 <textarea required class="form-control" name="texto" id="texto" rows="3"></textarea class="form-control">
             </div>
             <div class="form-group">
-                <label for="fotografia">Escolha uma fotografia</label>
-                <input type="file" class="form-control-file" id="fotografia">
+                <label for="fileToUpload">Escolha uma fotografia</label>
+                <input required type="file" name="fileToUpload" class="form-control-file" id="fileToUpload">
             </div>
             <input class="btn btn-primary" type="submit" name="Publicar" value="Publicar" />
         </form>
@@ -68,30 +67,38 @@ include('footer.php');
 </html>
 
 <?php
-
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Publicar"])) {
     $db = new Labsi2_db();
     $db->connect();
 
-
     $nome = $_SESSION['username'];
-    $titulo = $_POST["titulo"];
-    $descricao = $_POST["texto"];
+    $titulo = test_input($_POST["titulo"]);
+    $descricao = test_input($_POST["texto"]);
     $data = date("Y/m/d");
-
     date_default_timezone_set('Europe/Lisbon');
     $hora = date("H:i:s");
-
+	$target_dir = "uploads/";
+    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+    $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+    $foto = $_FILES["fileToUpload"]["name"];
+    move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
 
     $id_areas = $db->getIdFromAreas($_POST['areas']);
 
-    $db->insertPub($titulo, $descricao, $data, $hora, $id_areas);
+    $db->insertPub($titulo, $descricao, $foto, $data, $hora, $id_areas);
     $id_publicacoes = $db ->getIdFromPub($titulo, $descricao, $id_areas);
     $id_utilizadores = $db ->getIdFromUsers($nome);
     $db->insertUsersPubs($id_utilizadores, $id_publicacoes);
 
 
     $db->close_connect();
+}
+
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
 }
 
 ?>

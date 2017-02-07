@@ -74,8 +74,8 @@ class Labsi2_db{
 		mysqli_query($this->conn, $sql);
 	}
 
-	public function insertPub($titulo, $descricao, $data, $hora , $id_areas) {
-		$sql = "INSERT INTO publicacoes VALUES('','$titulo','$descricao', '$data', '$hora', $id_areas);";
+	public function insertPub($titulo, $descricao, $foto, $data, $hora , $id_areas) {
+		$sql = "INSERT INTO publicacoes VALUES('','$titulo','$descricao','$foto','$data', '$hora', $id_areas);";
 		mysqli_query($this->conn, $sql);
 	}
 
