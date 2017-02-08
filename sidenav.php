@@ -11,11 +11,9 @@
         <h5><strong>PROJETOS</strong></h5>
         <?php if (isset($_SESSION['validUser']) AND $_SESSION['validUser'] == 1) :?>
         <li><a href="criar_projeto.php">Criar Projeto</a></li>
-        <li><a>PetriRig</a></li>
-        <li><a>Eugénio V3</a></li>
+        <li><a>Projetos Recentes</a></li>
         <?php else: ?>
-        <li><a>PetriRig</a></li>
-        <li><a>Eugénio V3</a></li>
+        <li><a>Projetos Recentes</a></li>
         <?php endif; ?>
     </ul>
     <ul class="list">

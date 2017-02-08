@@ -79,6 +79,17 @@ class Labsi2_db{
 		mysqli_query($this->conn, $sql);
 	}
 
+	public function updatePub($id, $titulo, $descricao, $id_areas){
+
+		$sql = "UPDATE publicacoes SET titulo='$titulo', descricao='$descricao', id_areas=$id_areas WHERE id=$id";
+		mysqli_query($this->conn, $sql);
+	}
+
+	public function deletePub($id){
+		$sql = "DELETE FROM publicacoes WHERE id = $id";
+		mysqli_query($this->conn, $sql);
+	}
+
 	public function getIdFromPub($titulo, $descricao, $id_areas) {
 
 		$sql = "SELECT id FROM publicacoes WHERE titulo = '$titulo' AND descricao = '$descricao' AND id_areas = '$id_areas'";
@@ -116,6 +127,15 @@ class Labsi2_db{
 		}
 	}
 
+	public function getNameFromAreas($id){
+		$sql = "SELECT nome FROM areas WHERE id ='$id'";
+		$sqlquery = mysqli_query($this->conn, $sql);
+		$row = mysqli_fetch_assoc($sqlquery);
+		$result = $row['nome'];
+
+		return $result;
+	}
+
 	public function getIdFromAreas($nome){
 		$sql = "SELECT id FROM areas WHERE nome ='$nome'";
 		$sqlquery = mysqli_query($this->conn, $sql);
@@ -125,7 +145,7 @@ class Labsi2_db{
 	}
 
 	public function getAllIdsFromPubs(){
-		$sql = "SELECT id FROM publicacoes";
+		$sql = "SELECT id FROM publicacoes ORDER BY id DESC";
 		$result = mysqli_query($this -> conn, $sql);
 		if (mysqli_num_rows($result) > 0){
 			$array = array();
@@ -138,13 +158,26 @@ class Labsi2_db{
 		}
 	}
 
-	function getAllPubs($number){
+	public function getAllPubs($number){
 
 		$sql = "SELECT * FROM publicacoes WHERE id = '$number'";
 		$query = mysqli_query($this -> conn, $sql);
 
 		$row = mysqli_fetch_assoc($query);
 		return $row;
+	}
+
+	public function checkUserPubs($nome_utilizador, $id_publicacao){
+		$sql = "SELECT utilizadores.id from utilizadores, utilizadores_publicacoes WHERE utilizadores.nome LIKE '".$nome_utilizador."'
+                    AND utilizadores.id = utilizadores_publicacoes.id_utilizadores
+                    AND utilizadores_publicacoes.id_publicacoes = ".$id_publicacao.";";
+
+
+		$query = mysqli_query($this -> conn, $sql);
+
+		return mysqli_num_rows($query);
+
+
 	}
 }
 ?>

@@ -20,7 +20,8 @@ include ('session.php');
 include('header.php');
 ?>
 <div class="container-fluid wraper">
-    <?php include('sidenav.php') ?>
+    <?php include('sidenav.php')
+    ?>
     <br>
     <div class="col-sm-8 textcontent">
         <h1 class="title"><strong>Publicação</strong></h1>
@@ -28,21 +29,49 @@ include('header.php');
         <form class="form-horizontal" action="<?php htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="titulo">Titulo</label>
-                <input type="text" name="titulo" class="form-control" id="titulo" required>
+                <?php
+                $db = new Labsi2_db();
+                $db ->connect();
+
+                if(isset($_GET['id'])){
+                    $pubs = $db->getAllPubs($_GET['id']);
+                    echo '<input type="text" name="titulo" value="' .$pubs['titulo'].'" class="form-control" id="titulo" required>';
+                }
+                else{
+                    echo '<input type="text" name="titulo" class="form-control" id="titulo" required>';
+                }
+                $db -> close_connect();
+                ?>
             </div>
             <div class="form-group">
                 <label for="areas">Tipo de Areas</label>
                 <select required class="form-control" name="areas">
-                    <option selected disabled hidden value=""> Escolha a Area Pretendida </option>
                     <?php
-
                     $db = new Labsi2_db();
                     $db ->connect();
 
-                    $areas = $db->getAllNamesFromAreas();
+                    if(isset($_GET['id'])){
+                        $pubs = $db->getAllPubs($_GET['id']);
+                        if($pubs['id_areas'] == 1){
+                            $nome = $db->getNameFromAreas(1);
+                            echo "<option selected value='$nome'>" . $nome . "</option>";
+                            $nome = $db->getNameFromAreas(2);
+                            echo "<option value='$nome'>" . $nome . "</option>";
+                        }
+                        else{
+                            $nome = $db->getNameFromAreas(2);
+                            echo "<option selected value='$nome'>" . $nome . "</option>";
+                            $nome = $db->getNameFromAreas(1);
+                            echo "<option value='$nome'>" . $nome . "</option>";
+                        }
+                    }
+                    else{
+                        echo '<option selected disabled hidden> Escolha a Area Pretendida </option>';
+                        $areas = $db->getAllNamesFromAreas();
 
-                    foreach ($areas as $nomes) {
-                        echo "<option value='$nomes'>" . $nomes . "</option>";
+                        foreach ($areas as $nomes) {
+                            echo "<option value='$nomes'>" . $nomes . "</option>";
+                        }
                     }
                     $db -> close_connect();
                     ?>
@@ -50,13 +79,40 @@ include('header.php');
             </div>
             <div class="form-group">
                 <label for="texto">Texto</label>
-                <textarea required class="form-control" name="texto" id="texto" rows="3"></textarea class="form-control">
+                <?php
+                $db = new Labsi2_db();
+                $db ->connect();
+
+                if(isset($_GET['id'])){
+                    $pubs = $db->getAllPubs($_GET['id']);
+                    echo '<textarea required class="form-control" name="texto" id="texto" rows="3">' . $pubs['descricao'] . '</textarea>';
+                }
+                else{
+                    echo '<textarea required class="form-control" name="texto" id="texto" rows="3"></textarea>';
+                }
+                $db -> close_connect();
+                ?>
             </div>
             <div class="form-group">
                 <label for="fileToUpload">Escolha uma fotografia</label>
-                <input required type="file" name="fileToUpload" class="form-control-file" id="fileToUpload">
+                <?php
+                if(isset($_GET['id'])){
+                    echo '<input type="file" name="fileToUpload" class="form-control-file" id="fileToUpload">';
+                }
+                else{
+                    echo '<input required type="file" name="fileToUpload" class="form-control-file" id="fileToUpload">';
+                }
+                ?>
             </div>
-            <input class="btn btn-primary" type="submit" name="Publicar" value="Publicar" />
+            <?php
+            if(isset($_GET['id'])){
+            echo '<input class="btn btn-primary" type="submit" name="Alterar" value="Alterar" style="margin-right: 10px; padding: " />';
+            echo '<input class="btn btn-primary" type="submit" name="Eliminar" value="Eliminar" />';
+            }
+            else{
+            echo '<input class="btn btn-primary" type="submit" name="Publicar" value="Publicar" />';
+            }
+            ?>
         </form>
     </div>
 </div>
@@ -90,9 +146,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Publicar"])) {
     $id_utilizadores = $db ->getIdFromUsers($nome);
     $db->insertUsersPubs($id_utilizadores, $id_publicacoes);
 
+    echo ("<SCRIPT LANGUAGE='JavaScript'>
+    window.alert('Publicação efectuada com sucesso!')
+    window.location.href='publicacoes_recentes.php';
+    </SCRIPT>");
 
     $db->close_connect();
 }
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Alterar"])) {
+    $db = new Labsi2_db();
+    $db->connect();
+
+    $nome = $_SESSION['username'];
+    $titulo = test_input($_POST["titulo"]);
+    $descricao = test_input($_POST["texto"]);
+    $id_areas = $db->getIdFromAreas($_POST['areas']);
+
+    $db->updatePub($_GET['id'], $titulo, $descricao, $id_areas);
+
+    echo ("<SCRIPT LANGUAGE='JavaScript'>
+    window.alert('Publicação alterada com sucesso!')
+    window.location.href='publicacoes_recentes.php';
+    </SCRIPT>");
+
+    $db->close_connect();
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Eliminar"])) {
+    $db = new Labsi2_db();
+    $db->connect();
+
+    $db->deletePub($_GET['id']);
+
+    echo ("<SCRIPT LANGUAGE='JavaScript'>
+    window.alert('Publicação eliminada com sucesso!')
+    window.location.href='publicacoes_recentes.php';
+    </SCRIPT>");
+
+    $db->close_connect();
+}
+
 
 function test_input($data) {
     $data = trim($data);
