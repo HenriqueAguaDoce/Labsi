@@ -57,10 +57,7 @@ include('header.php');
                             $areas = $db->getAllNamesFromAreas();
 
                             foreach ($areas as $nomes) {
-                                if($nomes==$nome) {
-
-                                }
-                                else{
+                                if($nomes!=$nome) {
                                     echo "<option value='$nomes'>" . $nomes . "</option>";
                                 }
                             }
@@ -71,10 +68,7 @@ include('header.php');
                             $areas = $db->getAllNamesFromAreas();
 
                             foreach ($areas as $nomes) {
-                                if($nomes==$_GET['area']) {
-
-                                }
-                                else{
+                                if($nomes!=$_GET['area']) {
                                     echo "<option value='$nomes'>" . $nomes . "</option>";
                                 }
                             }
@@ -114,17 +108,17 @@ include('header.php');
                     $db = new Labsi2_db();
                     $db ->connect();
                     $userNames = $db ->getAllUserNames();
-                    $size = count($userNames) - 1;
+                    $size = count($userNames) - 2;
+                    if($size > 5){
+                        $size = 5;
+                    }
 
                     echo "<select class='form-control' name='autores[]' size='$size' multiple='multiple'>";
 
                     echo '<option selected disabled hidden> Escolha os restantes autores caso existam </option>';
 
                     foreach ($userNames as $names) {
-                        if($names == $_SESSION['username']){
-                        }
-                        else
-                        {
+                        if(($names != $_SESSION['username'])&& ($names != "Admin")) {
                             echo "<option value='$names'>" . $names . "</option>";
                         }
                     }
@@ -140,17 +134,6 @@ include('header.php');
                 }
                 else{
                     echo '<input required type="file" name="fileToUpload" class="form-control-file" id="fileToUpload">';
-                }
-                ?>
-            </div>
-            <div class="form-group">
-                <label for="fotoToUpload">Escolha uma fotografia</label>
-                <?php
-                if(isset($_GET['id'])){
-                    echo '<input type="file" name="fotoToUpload" class="form-control-file" id="fotoToUpload">';
-                }
-                else{
-                    echo '<input type="file" name="fotoToUpload" class="form-control-file" id="fotoToUpload">';
                 }
                 ?>
             </div>
@@ -185,16 +168,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Publicar"])) {
     date_default_timezone_set('Europe/Lisbon');
     $hora = date("H:i:s");
 	$target_dir = "uploads/";
-    $target_file = $target_dir . basename($_FILES["fotoToUpload"]["name"]);
-    $target_file1 = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-    $foto = $_FILES["fotoToUpload"]["name"];
+    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
     $pdf = $_FILES["fileToUpload"]["name"];
-    move_uploaded_file($_FILES["fotoToUpload"]["tmp_name"], $target_file);
-    move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file1);
+    move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
 
     $id_areas = $db->getIdFromAreas($_POST['areas']);
 
-    $db->insertPub($titulo, $descricao, $foto, $pdf, $data, $hora, $id_areas);
+    $db->insertPub($titulo, $descricao,$pdf, $data, $hora, $id_areas);
     $id_publicacoes = $db ->getIdFromPub($titulo, $descricao, $id_areas);
     $id_utilizadores = $db ->getIdFromUsers($nome);
     $db->insertUsersPubs($id_utilizadores, $id_publicacoes);
@@ -223,17 +203,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Alterar"])) {
     $titulo = test_input($_POST["titulo"]);
     $descricao = test_input($_POST["texto"]);
     $hora = date("H:i:s");
-    $target_dir = "uploads/";
-    $target_file = $target_dir . basename($_FILES["fotoToUpload"]["name"]);
-    $target_file1 = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-    $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-    $foto = $_FILES["fotoToUpload"]["name"];
-    $pdf = $_FILES["fileToUpload"]["name"];
-    move_uploaded_file($_FILES["fotoToUpload"]["tmp_name"], $target_file);
-    move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file1);
+
     $id_areas = $db->getIdFromAreas($_POST['areas']);
 
-    $db->updatePub($_GET['id'], $titulo, $descricao, $foto, $pdf, $id_areas);
+    if(!empty($_FILES["fileToUpload"]["name"])){
+        $pdf = $_FILES["fileToUpload"]["name"];
+        $target_dir = "uploads/";
+        $target_file = $target_dir . basename($pdf);
+        move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
+
+        $db->updateProjFile($idUser, $pdf);
+    }
+
+    $db->updatePub($_GET['id'], $titulo, $descricao, $id_areas);
 
     echo ("<SCRIPT LANGUAGE='JavaScript'>
     window.alert('Publicação alterada com sucesso!')

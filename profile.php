@@ -94,7 +94,7 @@ include('header.php');
                 <div class="form-group">
                     <label class="col-md-3 control-label">Tipo de Utilizador:</label>
                     <div class="col-md-8">
-                        <select required class="form-control register" name="tipoUtilizador">
+                        <select required class="form-control" name="tipoUtilizador">
                             <?php
                             $db = new Labsi2_db();
                             $db ->connect();
@@ -107,7 +107,9 @@ include('header.php');
                             $id_tipoUtilizador = $db->getAllNamesFromTipoUtilizadores();
 
                             foreach ($id_tipoUtilizador as $nomes) {
-                                echo "<option value='$nomes'>" . $nomes . "</option>";
+                                if($nomes != $nome_tipoUtilizador){
+                                    echo "<option value='$nomes'>" . $nomes . "</option>";
+                                }
                             }
                             $db -> close_connect();
                             ?>

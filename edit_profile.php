@@ -9,19 +9,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Guardar"])) {
     $idUser = $db->getIdFromUser($_SESSION['username']);
 
 
-    $target_dir = "uploads/";
-    $foto = $_FILES["fotoToUpload"]["name"];
-    $target_file = $target_dir . basename($foto);
-    move_uploaded_file($_FILES["fotoToUpload"]["tmp_name"], $target_file);
+    if(!empty($_FILES["fotoToUpload"]["name"])){
+        $foto = $_FILES["fotoToUpload"]["name"];
+        $target_dir = "uploads/";
+        $target_file = $target_dir . basename($foto);
+        move_uploaded_file($_FILES["fotoToUpload"]["tmp_name"], $target_file);
 
-
-
+        $db->updateUserFoto($idUser, $foto);
+    }
 
     $nomeUsername = test_input($_POST["nome"]);
     $descricao = test_input($_POST["descricao"]);
     $email = test_input($_POST["email"]);
     $id_tipoUtilizador = $db->getIdFromTipoUtilizadores($_POST["tipoUtilizador"]);
-    $db->updateUsers($idUser, $nomeUsername, $foto, $descricao, $email, $id_tipoUtilizador);
+    $db->updateUsers($idUser, $nomeUsername, $descricao, $email, $id_tipoUtilizador);
 
     if(!empty($_POST['pass'])) {
         $password = test_input($_POST["pass"]);
