@@ -19,7 +19,7 @@
       
         <?php if (isset($_SESSION['validUser']) AND $_SESSION['validUser'] == 1) :?>
         <li>
-        	<a href="#">
+        	<a href="profile.php">
 				<span class="glyphicon glyphicon-user"></span> <?php echo($_SESSION['username']) ?>
             </a>
         </li>

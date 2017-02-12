@@ -68,20 +68,44 @@ class Labsi2_db{
 			return false;
 		}
 	}
+
+	public function getAllUserNames(){
+		$sql = "SELECT nome FROM utilizadores";
+		$result = mysqli_query($this -> conn, $sql);
+		if (mysqli_num_rows($result) > 0){
+			$array = array();
+			while($row = mysqli_fetch_assoc($result)) {
+				$array[] = $row["nome"];
+			}
+			return $array;
+		} else {
+			echo "0 results";
+		}
+
+	}
+
+	public function getIdFromUser($nome) {
+
+		$sql = "SELECT id FROM utilizadores WHERE nome = '$nome'";
+		$sqlquery = mysqli_query($this->conn, $sql);
+		$row = mysqli_fetch_assoc($sqlquery);
+		$result = $row['id'];
+		return $result;
+	}
 	
 	public function insertUser($nome, $email , $password, $id_tipoUtilizador){
-		$sql = "INSERT INTO utilizadores VALUES('','$nome','$email', '$password', $id_tipoUtilizador);";
+		$sql = "INSERT INTO utilizadores VALUES('','$nome','$email', '$password','','',$id_tipoUtilizador, 0);";
 		mysqli_query($this->conn, $sql);
 	}
 
-	public function insertPub($titulo, $descricao, $foto, $data, $hora , $id_areas) {
-		$sql = "INSERT INTO publicacoes VALUES('','$titulo','$descricao','$foto','$data', '$hora', $id_areas);";
+	public function insertPub($titulo, $descricao, $foto, $documento, $data, $hora , $id_areas) {
+		$sql = "INSERT INTO publicacoes VALUES('','$titulo','$descricao','$foto','$documento','$data', '$hora',$id_areas);";
 		mysqli_query($this->conn, $sql);
 	}
 
-	public function updatePub($id, $titulo, $descricao, $id_areas){
+	public function updatePub($id, $titulo, $descricao, $foto, $documento, $id_areas){
 
-		$sql = "UPDATE publicacoes SET titulo='$titulo', descricao='$descricao', id_areas=$id_areas WHERE id=$id";
+		$sql = "UPDATE publicacoes SET titulo='$titulo', descricao='$descricao', foto='$foto', documento='$documento', id_areas=$id_areas WHERE id=$id";
 		mysqli_query($this->conn, $sql);
 	}
 
@@ -153,8 +177,6 @@ class Labsi2_db{
 				$array[] = $row["id"];
 			}
 			return $array;
-		} else {
-			echo "0 results";
 		}
 	}
 
@@ -178,6 +200,78 @@ class Labsi2_db{
 		return mysqli_num_rows($query);
 
 
+	}
+
+	public function getNameOfUserInPubs($id){
+		$sql = "SELECT utilizadores.nome from utilizadores, utilizadores_publicacoes WHERE utilizadores_publicacoes.id_publicacoes =$id
+				AND utilizadores.id = utilizadores_publicacoes.id_utilizadores;";
+		$result = mysqli_query($this -> conn, $sql);
+		if (mysqli_num_rows($result) > 0){
+			$array = array();
+			while($row = mysqli_fetch_assoc($result)) {
+				$array[] = $row["nome"];
+			}
+			return $array;
+		} else {
+			echo "0 results";
+		}
+	}
+
+	public function checkAdmin($nome){
+		$sql = "SELECT admin from utilizadores WHERE nome ='$nome';";
+		$query = mysqli_query($this -> conn, $sql);
+		$row = mysqli_fetch_assoc($query);
+		$result = $row['admin'];
+		return $result;
+	}
+
+	public function getAllPubsFromIdArea($id){
+
+		$sql = "SELECT id FROM publicacoes WHERE id_areas = $id ORDER BY id DESC;";
+		$result = mysqli_query($this -> conn, $sql);
+		if (mysqli_num_rows($result) > 0){
+			$array = array();
+			while($row = mysqli_fetch_assoc($result)) {
+				$array[] = $row["id"];
+			}
+			return $array;
+		}
+	}
+
+	public function getAllFieldsFromUser($id){
+		$sql = "SELECT * FROM utilizadores WHERE id = '$id'";
+		$query = mysqli_query($this -> conn, $sql);
+
+		$row = mysqli_fetch_assoc($query);
+		return $row;
+	}
+
+	public function getAllNamesTipoUtilizadoresFromIdTipoUtilizadores($nome){
+		$sql = "SELECT tipo_utilizadores.nome FROM tipo_utilizadores, utilizadores where utilizadores.id_tipo_utilizadores = tipo_utilizadores.id and utilizadores.nome = '$nome'";
+		$query = mysqli_query($this -> conn, $sql);
+
+		$row = mysqli_fetch_assoc($query);
+		return $row;
+	}
+
+	public function updateUsers($id, $nome, $foto, $descricao, $email, $id_tipo_utilizadores){
+		$sql = "UPDATE utilizadores SET nome='$nome', foto='$foto', email='$email', descricao='$descricao', id_tipo_utilizadores=$id_tipo_utilizadores WHERE id=$id";
+		mysqli_query($this->conn, $sql);
+	}
+
+	public function updateUserPass($id,$pass){
+		$sql = "UPDATE utilizadores SET password='$pass' WHERE id=$id";
+		mysqli_query($this->conn, $sql);
+	}
+
+	public function updateUserFoto($id,$foto){
+		$sql = "UPDATE utilizadores SET foto=$foto WHERE id=$id";
+		mysqli_query($this->conn, $sql);
+	}
+
+	public function deteleUser($id){
+		$sql = "DELETE FROM utilizadores WHERE id = $id";
+		mysqli_query($this->conn, $sql);
 	}
 }
 ?>

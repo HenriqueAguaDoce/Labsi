@@ -6,8 +6,8 @@ include ('db.php');
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Iniciar"])){
 $db = new Labsi2_db();
 $db ->connect();
-$password = $_POST["logPass"];
-$username = $_POST["logName"];
+$password = test_input($_POST["logPass"]);
+$username = test_input($_POST["logName"]);
 
 $hashPassword  = $db -> getUserPass($username);
 
@@ -29,7 +29,7 @@ if($checkUser == true){
 	$_SESSION['username'] = $username;
 	$_SESSION['validUser'] = 1;
 	
-	$duration = (0.5 * 60);
+	$duration = (5 * 60);
  	
     $_SESSION['start'] = time();
     $_SESSION['expire'] = $_SESSION['start'] + $duration;

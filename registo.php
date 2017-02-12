@@ -54,7 +54,7 @@ if(($emailBool == true) && ($nomeBool == true)){
 	$salt = strtr(base64_encode(mcrypt_create_iv(16, MCRYPT_DEV_URANDOM)), '+', '.');
 	$salt = sprintf("$2a$%02d$", $cost) . $salt;
 	$hash = crypt($password, $salt);	
-	$db->insertUser($nome, $email , $hash, $id_tipoUtilizador);
+	$db->insertUser($nome, $email , $hash,$id_tipoUtilizador, 0);
 	$db -> close_connect();
     echo ("<SCRIPT LANGUAGE='JavaScript'>
     window.alert('Registo efectuado com sucesso!')

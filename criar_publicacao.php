@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link href="style/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="style/style2.css" rel="stylesheet" type="text/css" media="all" />
 </head>
 
 <body>
@@ -32,7 +32,6 @@ include('header.php');
                 <?php
                 $db = new Labsi2_db();
                 $db ->connect();
-
                 if(isset($_GET['id'])){
                     $pubs = $db->getAllPubs($_GET['id']);
                     echo '<input type="text" name="titulo" value="' .$pubs['titulo'].'" class="form-control" id="titulo" required>';
@@ -52,17 +51,33 @@ include('header.php');
 
                     if(isset($_GET['id'])){
                         $pubs = $db->getAllPubs($_GET['id']);
-                        if($pubs['id_areas'] == 1){
-                            $nome = $db->getNameFromAreas(1);
+                        if($pubs['id_areas'] == $_GET['area']){
+                            $nome = $db->getNameFromAreas($_GET['area']);
                             echo "<option selected value='$nome'>" . $nome . "</option>";
-                            $nome = $db->getNameFromAreas(2);
-                            echo "<option value='$nome'>" . $nome . "</option>";
+                            $areas = $db->getAllNamesFromAreas();
+
+                            foreach ($areas as $nomes) {
+                                if($nomes==$nome) {
+
+                                }
+                                else{
+                                    echo "<option value='$nomes'>" . $nomes . "</option>";
+                                }
+                            }
                         }
                         else{
-                            $nome = $db->getNameFromAreas(2);
+                            $nome = $db->getNameFromAreas($_GET['area']);
                             echo "<option selected value='$nome'>" . $nome . "</option>";
-                            $nome = $db->getNameFromAreas(1);
-                            echo "<option value='$nome'>" . $nome . "</option>";
+                            $areas = $db->getAllNamesFromAreas();
+
+                            foreach ($areas as $nomes) {
+                                if($nomes==$_GET['area']) {
+
+                                }
+                                else{
+                                    echo "<option value='$nomes'>" . $nomes . "</option>";
+                                }
+                            }
                         }
                     }
                     else{
@@ -94,13 +109,48 @@ include('header.php');
                 ?>
             </div>
             <div class="form-group">
-                <label for="fileToUpload">Escolha uma fotografia</label>
+                <label for="autores">Autores</label>
+                    <?php
+                    $db = new Labsi2_db();
+                    $db ->connect();
+                    $userNames = $db ->getAllUserNames();
+                    $size = count($userNames) - 1;
+
+                    echo "<select class='form-control' name='autores[]' size='$size' multiple='multiple'>";
+
+                    echo '<option selected disabled hidden> Escolha os restantes autores caso existam </option>';
+
+                    foreach ($userNames as $names) {
+                        if($names == $_SESSION['username']){
+                        }
+                        else
+                        {
+                            echo "<option value='$names'>" . $names . "</option>";
+                        }
+                    }
+                    $db -> close_connect();
+                    echo '</select>';
+                    ?>
+            </div>
+            <div class="form-group">
+                <label for="fileToUpload">Escolha um ficheiro PDF</label>
                 <?php
                 if(isset($_GET['id'])){
                     echo '<input type="file" name="fileToUpload" class="form-control-file" id="fileToUpload">';
                 }
                 else{
                     echo '<input required type="file" name="fileToUpload" class="form-control-file" id="fileToUpload">';
+                }
+                ?>
+            </div>
+            <div class="form-group">
+                <label for="fotoToUpload">Escolha uma fotografia</label>
+                <?php
+                if(isset($_GET['id'])){
+                    echo '<input type="file" name="fotoToUpload" class="form-control-file" id="fotoToUpload">';
+                }
+                else{
+                    echo '<input type="file" name="fotoToUpload" class="form-control-file" id="fotoToUpload">';
                 }
                 ?>
             </div>
@@ -113,6 +163,7 @@ include('header.php');
             echo '<input class="btn btn-primary" type="submit" name="Publicar" value="Publicar" />';
             }
             ?>
+            <br><br><br><br>
         </form>
     </div>
 </div>
@@ -134,17 +185,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Publicar"])) {
     date_default_timezone_set('Europe/Lisbon');
     $hora = date("H:i:s");
 	$target_dir = "uploads/";
-    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-    $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-    $foto = $_FILES["fileToUpload"]["name"];
-    move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
+    $target_file = $target_dir . basename($_FILES["fotoToUpload"]["name"]);
+    $target_file1 = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+    $foto = $_FILES["fotoToUpload"]["name"];
+    $pdf = $_FILES["fileToUpload"]["name"];
+    move_uploaded_file($_FILES["fotoToUpload"]["tmp_name"], $target_file);
+    move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file1);
 
     $id_areas = $db->getIdFromAreas($_POST['areas']);
 
-    $db->insertPub($titulo, $descricao, $foto, $data, $hora, $id_areas);
+    $db->insertPub($titulo, $descricao, $foto, $pdf, $data, $hora, $id_areas);
     $id_publicacoes = $db ->getIdFromPub($titulo, $descricao, $id_areas);
     $id_utilizadores = $db ->getIdFromUsers($nome);
     $db->insertUsersPubs($id_utilizadores, $id_publicacoes);
+
+    if(isset($_POST['autores'])){
+
+        foreach ($_POST['autores'] as $selectedOption) {
+            $id_utilizadores = $db->getIdFromUsers($selectedOption);
+            $db->insertUsersPubs($id_utilizadores, $id_publicacoes);
+        }
+    }
 
     echo ("<SCRIPT LANGUAGE='JavaScript'>
     window.alert('Publicação efectuada com sucesso!')
@@ -161,9 +222,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Alterar"])) {
     $nome = $_SESSION['username'];
     $titulo = test_input($_POST["titulo"]);
     $descricao = test_input($_POST["texto"]);
+    $hora = date("H:i:s");
+    $target_dir = "uploads/";
+    $target_file = $target_dir . basename($_FILES["fotoToUpload"]["name"]);
+    $target_file1 = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+    $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+    $foto = $_FILES["fotoToUpload"]["name"];
+    $pdf = $_FILES["fileToUpload"]["name"];
+    move_uploaded_file($_FILES["fotoToUpload"]["tmp_name"], $target_file);
+    move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file1);
     $id_areas = $db->getIdFromAreas($_POST['areas']);
 
-    $db->updatePub($_GET['id'], $titulo, $descricao, $id_areas);
+    $db->updatePub($_GET['id'], $titulo, $descricao, $foto, $pdf, $id_areas);
 
     echo ("<SCRIPT LANGUAGE='JavaScript'>
     window.alert('Publicação alterada com sucesso!')
