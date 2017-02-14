@@ -377,5 +377,19 @@ class Labsi2_db{
 		$sql = "DELETE FROM utilizadores WHERE id = $id";
 		mysqli_query($this->conn, $sql);
 	}
+
+	public  function getAllProjsFromUserName($nome){
+		$sql = "SELECT COUNT(utilizadores_projetos.id) as total FROM utilizadores_projetos, utilizadores WHERE utilizadores.id = utilizadores_projetos.id_utilizadores AND utilizadores.nome = '$nome';";
+		$sqlquery = mysqli_query($this->conn, $sql);
+		$row = mysqli_fetch_assoc($sqlquery);
+		return $row;
+	}
+
+	public  function getAllPubsFromUserName($nome){
+		$sql = "SELECT COUNT(utilizadores_publicacoes.id) as total FROM utilizadores_publicacoes, utilizadores WHERE utilizadores.id = utilizadores_publicacoes.id_utilizadores AND utilizadores.nome = '$nome';";
+		$sqlquery = mysqli_query($this->conn, $sql);
+		$row = mysqli_fetch_assoc($sqlquery);
+		return $row;
+	}
 }
 ?>

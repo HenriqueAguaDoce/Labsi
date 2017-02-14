@@ -212,7 +212,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Alterar"])) {
         $target_file = $target_dir . basename($pdf);
         move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
 
-        $db->updateProjFile($idUser, $pdf);
+        $db->updateProjFile($_GET['id'], $pdf);
+    }
+
+    $id_publicacoes = $db ->getIdFromPub($titulo, $descricao, $id_areas);
+
+    if(isset($_POST['autores'])){
+        foreach ($_POST['autores'] as $selectedOption) {
+            $id_utilizadores = $db->getIdFromUsers($selectedOption);
+            $db->insertUsersPubs($id_utilizadores, $id_publicacoes);
+        }
     }
 
     $db->updatePub($_GET['id'], $titulo, $descricao, $id_areas);

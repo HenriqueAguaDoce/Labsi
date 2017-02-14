@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<link href="style/style.css" rel="stylesheet" type="text/css" media="all" />
+<link href="style/style2.css" rel="stylesheet" type="text/css" media="all" />
 </head>
 <body>
 <?php 
@@ -26,7 +26,7 @@ include('header.php');
 	<br>
   	<div class="col-sm-8 textcontent"> 
    		<h2 class="title"><strong>LabSI2 - Laboratório de Sistemas de Informação e de Interatividade</strong></h2>
-        <br><br><br><br>
+		<a class="image"><img src="images/labsi.png" width="800" height="400" alt="labsi" /></a>
     	<p>O Laboratório de Sistemas de Informação e Interatividade (LabSI2) tem como missão contribuir, através do recurso às novas tecnologias da informação e
 			comunicação, para a competitividade das empresas e melhoria da qualidade de vida de todas as pessoas sem exceção.
 		</p>
@@ -39,6 +39,7 @@ include('header.php');
     	<p>A realização deste site surgiu no âmbito da disciplina Projeto Integrado 3 pertencente ao Curso Técnico e Superior Profissional de Tecnologias Web e
 			Dispositivos Móveis na Escola Superior de Tecnologia e Gestão, do Instituto Politécnico de Beja.
 		</p>
+		<br><br><br><br>
 	</div>
 </div>
 

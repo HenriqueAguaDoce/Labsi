@@ -226,7 +226,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Alterar"])) {
         $target_file = $target_dir . basename($foto);
         move_uploaded_file($_FILES["fotoToUpload"]["tmp_name"], $target_file);
 
-        $db->updateProjFoto($idUser, $foto);
+        $db->updateProjFoto($_GET['id'], $foto);
     }
 
     if(!empty($_FILES["fileToUpload"]["name"])){
@@ -235,7 +235,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Alterar"])) {
         $target_file = $target_dir . basename($pdf);
         move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
 
-        $db->updateProjFile($idUser, $pdf);
+        $db->updateProjFile($_GET['id'], $pdf);
+    }
+
+    $id_projetos = $db ->getIdFromProj($titulo, $descricao, $id_areas);
+
+    if(isset($_POST['autores'])){
+
+        foreach ($_POST['autores'] as $selectedOption) {
+            $id_utilizadores = $db->getIdFromUsers($selectedOption);
+            $db->insertUsersProjs($id_utilizadores, $id_projetos);
+        }
     }
 
     $db->updateProj($_GET['id'], $titulo, $descricao,$id_areas);

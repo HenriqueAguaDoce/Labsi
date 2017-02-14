@@ -19,10 +19,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Guardar"])) {
     }
 
     $nomeUsername = test_input($_POST["nome"]);
+
     $descricao = test_input($_POST["descricao"]);
     $email = test_input($_POST["email"]);
     $id_tipoUtilizador = $db->getIdFromTipoUtilizadores($_POST["tipoUtilizador"]);
     $db->updateUsers($idUser, $nomeUsername, $descricao, $email, $id_tipoUtilizador);
+    $_SESSION['username'] = $nomeUsername;
 
     if(!empty($_POST['pass'])) {
         $password = test_input($_POST["pass"]);

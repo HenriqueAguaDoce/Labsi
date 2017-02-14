@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link href="style/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="style/style2.css" rel="stylesheet" type="text/css" media="all" />
 </head>
 
 <body>
@@ -23,7 +23,7 @@ include('header.php');
     <?php include('sidenav.php') ?>
     <br>
     <div class="col-sm-8 textcontent">
-        <h1 class="title"><strong>Editar Perfil</strong></h1>
+        <h1 class="title" style="padding-right: 70px"><strong>Editar Perfil</strong></h1>
         <br><br>
         <form class="form-horizontal" action="edit_profile.php"  method="post" accept-charset="UTF-8" enctype="multipart/form-data">
         <div class="row">
@@ -159,8 +159,46 @@ include('header.php');
                     ?>
                 </div>
             </div>
+
         </div>
         </form>
+        <div>
+            <br><br><br><br>
+            <h2 class="title" style="padding-right: 70px"><strong>Estatisticas</strong></h2>
+            <br><br>
+            <table class="table">
+                <tr>
+                    <td class="td">Número total de projetos</td>
+                    <?php
+                    $db = new Labsi2_db();
+                    $db -> connect();
+
+
+                    $projetos = $db->getAllProjsFromUserName($_SESSION['username']);
+
+                    echo '<td>'.$projetos['total'].'</td>';
+
+                    $db -> close_connect();
+                    ?>
+
+                </tr>
+                <tr>
+                    <td>Número total de publicações</td>
+                    <?php
+                    $db = new Labsi2_db();
+                    $db -> connect();
+
+
+                    $publicacoes = $db->getAllPubsFromUserName($_SESSION['username']);
+
+                    echo '<td>'.$publicacoes['total'].'</td>';
+
+                    $db -> close_connect();
+                    ?>
+                </tr>
+            </table>
+        </div>
+        <br><br><br><br>
     </div>
 </div>
 <?php
